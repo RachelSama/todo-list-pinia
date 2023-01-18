@@ -17,7 +17,7 @@ export const useToDoStore = defineStore('todo', {
   actions: {
     async loadData() {
       const dataTodo = await axios.get(`${SERVER}/todos`)
-      dataTodo.data.forEach(todo => this.todos.push(todo));
+      this.todos = dataTodo.data
     },
 
     async addTodo(newValue) {
@@ -43,10 +43,10 @@ export const useToDoStore = defineStore('todo', {
 
     },
 
-    async makeFinishOrUnfinish(todo) {
+    async changeDone(todo) {
       let response = await axios.put(`${SERVER}/todos/${todo.id}`, {
         title: todo.title,
-        done: todo.done
+        done: !todo.done
       })
       let index = this.todos.findIndex(item => item.id === todo.id)
       console.log(index)
